@@ -28,7 +28,9 @@ ChatBot::ChatBot(std::string filename)
     _image = std::make_unique<wxBitmap>(filename, wxBITMAP_TYPE_PNG);
 }
 
-ChatBot::~ChatBot() {}
+ChatBot::~ChatBot() {
+    LOG("dropping");
+}
 
 //// STUDENT CODE
 ////

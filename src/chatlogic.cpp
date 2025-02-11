@@ -10,6 +10,7 @@
 #include "graphnode.h"
 #include "chatbot.h"
 #include "chatlogic.h"
+#include "utils.h"
 
 
 ChatLogic::ChatLogic()
@@ -29,6 +30,7 @@ ChatLogic::ChatLogic()
 
 ChatLogic::~ChatLogic()
 {
+    LOG("dropping");
     //// STUDENT CODE
     ////
 

@@ -2,9 +2,11 @@
 #include <wx/colour.h>
 #include <wx/image.h>
 #include <string>
+
 #include "chatbot.h"
 #include "chatlogic.h"
 #include "chatgui.h"
+#include "utils.h"
 
 // size of chatbot window
 const int width = 414;
@@ -107,6 +109,8 @@ END_EVENT_TABLE()
 ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     : wxScrolledWindow(parent, id)
 {
+    LOG("setting up chat bot panel dialog");
+
     // sizer will take care of determining the needed scroll size
     _dialogSizer = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(_dialogSizer);
@@ -114,31 +118,13 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     // allow for PNG images to be handled
     wxInitAllImageHandlers();
 
-    //// STUDENT CODE
-    ////
-
-    // create chat logic instance
-    _chatLogic = new ChatLogic(); 
-
-    // pass pointer to chatbot dialog so answers can be displayed in GUI
+    _chatLogic = std::make_unique<ChatLogic>();
     _chatLogic->SetPanelDialogHandle(this);
-
-    // load answer graph from file
     _chatLogic->LoadAnswerGraphFromFile(dataPath + "src/answergraph.txt");
-
-    ////
-    //// EOF STUDENT CODE
 }
 
-ChatBotPanelDialog::~ChatBotPanelDialog()
-{
-    //// STUDENT CODE
-    ////
-
-    delete _chatLogic;
-
-    ////
-    //// EOF STUDENT CODE
+ChatBotPanelDialog::~ChatBotPanelDialog() {
+    LOG("dropping");
 }
 
 void ChatBotPanelDialog::AddDialogItem(wxString text, bool isFromUser)
