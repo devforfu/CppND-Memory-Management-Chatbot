@@ -32,11 +32,59 @@ ChatBot::~ChatBot() {
     LOG("dropping");
 }
 
-//// STUDENT CODE
-////
+ChatBot::ChatBot(ChatBot const &other) {
+    LOG("copying from another object at address", &other);
+    
+    auto imageRef = other.GetImageHandle();
+    _image = std::unique_ptr<wxBitmap>(new wxBitmap(imageRef->GetPixbuf(), imageRef->GetDepth()));
+    _chatLogic = other.GetChatLogicHandle();
+    _currentNode = other.GetCurrentNode();
+    _rootNode = other.GetRootNode();
+}
 
-////
-//// EOF STUDENT CODE
+ChatBot::ChatBot(ChatBot &&other) {
+    LOG("moving from another object at address", &other);
+    
+    _image = other.TakeImage();
+
+    _chatLogic = other.GetChatLogicHandle();
+    other.SetChatLogicHandle(nullptr);
+    _currentNode = other.GetCurrentNode();
+    other.SetCurrentNode(nullptr);
+    _rootNode = other.GetRootNode();
+    other.SetRootNode(nullptr);
+}
+
+ChatBot &ChatBot::operator=(ChatBot const &other) {
+    LOG("copy assignment");
+
+    if (this == &other) return *this;
+
+    auto imageRef = other.GetImageHandle();
+    _image = std::unique_ptr<wxBitmap>(new wxBitmap(imageRef->GetPixbuf(), imageRef->GetDepth()));
+    _chatLogic = other.GetChatLogicHandle();
+    _currentNode = other.GetCurrentNode();
+    _rootNode = other.GetRootNode();
+
+    return *this;
+}
+
+ChatBot &ChatBot::operator=(ChatBot &&other) {
+    LOG("moving assignment");
+
+    if (this == &other) return *this;
+
+    _image = other.TakeImage();
+
+    _chatLogic = other.GetChatLogicHandle();
+    other.SetChatLogicHandle(nullptr);
+    _currentNode = other.GetCurrentNode();
+    other.SetCurrentNode(nullptr);
+    _rootNode = other.GetRootNode();
+    other.SetRootNode(nullptr);
+
+    return *this;
+}
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {

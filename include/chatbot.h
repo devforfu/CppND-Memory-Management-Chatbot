@@ -23,24 +23,25 @@ private:
     int ComputeLevenshteinDistance(std::string s1, std::string s2);
 
 public:
-    // constructors / destructors
-    ChatBot();                     // constructor WITHOUT memory allocation
-    ChatBot(std::string filename); // constructor WITH memory allocation
+    ChatBot();
+    ChatBot(std::string filename);
     ~ChatBot();
 
-    //// STUDENT CODE
-    ////
-
-    ////
-    //// EOF STUDENT CODE
+    ChatBot(ChatBot const &other);
+    ChatBot(ChatBot &&other);
+    ChatBot &operator=(ChatBot const &other);
+    ChatBot &operator=(ChatBot &&other);
 
     // getters / setters
     void SetCurrentNode(GraphNode *node);
     void SetRootNode(GraphNode *rootNode) { _rootNode = rootNode; }
     void SetChatLogicHandle(ChatLogic *chatLogic) { _chatLogic = chatLogic; }
 
-    ChatLogic* GetChatLogicHandle() { return _chatLogic; };
-    wxBitmap *GetImageHandle() { return _image.get(); }
+    GraphNode* GetCurrentNode() const { return _currentNode; }
+    ChatLogic* GetChatLogicHandle() const { return _chatLogic; };
+    GraphNode* GetRootNode() const { return _rootNode; }
+    wxBitmap *GetImageHandle() const { return _image.get(); }
+    std::unique_ptr<wxBitmap> TakeImage()  { return std::move(_image); }
 
     // communication
     void ReceiveMessageFromUser(std::string message);
