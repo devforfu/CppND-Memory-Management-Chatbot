@@ -24,10 +24,11 @@ public:
 
     // getter / setter
     int GetID() { return _id; }
-    void SetChildNode(std::shared_ptr<GraphNode> &childNode);
-    void SetParentNode(std::shared_ptr<GraphNode> &parentNode);
+    void SetChildNode(GraphNode *childNode);
+    void SetParentNode(GraphNode *parentNode);
     
-    GraphNode *GetChildNode();
+    GraphNode *GetChildNode() { return _childNode; };
+    GraphNode *GetParentNode() { return _parentNode; }
 
     std::vector<std::string> GetKeywords() { return _keywords; }
 

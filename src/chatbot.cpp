@@ -8,11 +8,12 @@
 #include "graphnode.h"
 #include "graphedge.h"
 #include "chatbot.h"
+#include "utils.h"
 
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
-    // invalidate data handles
+    LOG("building chat bot empty instance");
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
@@ -21,19 +22,13 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor" << std::endl;
-    
-    // invalidate data handles
+    LOG("building chat bot with image from", filename);
     _chatLogic = nullptr;
     _rootNode = nullptr;
-
-    // load image into heap memory
-    _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
+    _image = std::make_unique<wxBitmap>(filename, wxBITMAP_TYPE_PNG);
 }
 
-ChatBot::~ChatBot()
-{
-}
+ChatBot::~ChatBot() {}
 
 //// STUDENT CODE
 ////
