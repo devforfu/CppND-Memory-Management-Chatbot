@@ -11,8 +11,8 @@ class GraphEdge
 {
 private:
     // data handles (not owned)
-    std::weak_ptr<GraphNode> _childNode;
-    std::weak_ptr<GraphNode> _parentNode;
+    GraphNode* _childNode;
+    GraphNode* _parentNode;
 
     // proprietary members
     int _id;
