@@ -122,15 +122,21 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 
 void ChatBot::SetCurrentNode(GraphNode *node)
 {
+    LOG("setting up a new node with ID =", node->GetID());
     // update pointer to current node
     _currentNode = node;
 
     // select a random node answer (if several answers should exist)
+    LOG("picking up an answer");
     std::vector<std::string> answers = _currentNode->GetAnswers();
+    LOG("the number of possible answers:", answers.size());
+
+    LOG("picking a random answer if there are many");
     std::mt19937 generator(int(std::time(0)));
     std::uniform_int_distribution<int> dis(0, answers.size() - 1);
     std::string answer = answers.at(dis(generator));
 
+    LOG("selected answer: [", answer, "]");
     // send selected node answer to user
     _chatLogic->SendMessageToUser(answer);
 }

@@ -1,13 +1,17 @@
+#include <memory>
 #include "graphedge.h"
 #include "graphnode.h"
+#include "utils.h"
 
 GraphNode::GraphNode(int id)
 {
+    LOG("creating a graph node with ID =", id);
     _id = id;
 }
 
 GraphNode::~GraphNode()
 {
+    LOG("dropping graph node with ID =", _id);
 }
 
 void GraphNode::AddToken(std::string token)
@@ -15,39 +19,31 @@ void GraphNode::AddToken(std::string token)
     _answers.push_back(token);
 }
 
-void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
+void GraphNode::AddEdgeToParentNode(std::weak_ptr<GraphEdge> edge)
 {
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
+void GraphNode::AddEdgeToChildNode(std::shared_ptr<GraphEdge> edge)
 {
     _childEdges.push_back(edge);
 }
 
-//// STUDENT CODE
-////
 void GraphNode::MoveChatbotHere(ChatBot *chatbot)
 {
+    LOG("chat bot enters node with ID =", _id);
     _chatBot = chatbot;
     _chatBot->SetCurrentNode(this);
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
+    LOG("chat bot leaves node with ID =", _id, " and comes to ID =", newNode->GetID());
     newNode->MoveChatbotHere(_chatBot);
-    _chatBot = nullptr; // invalidate pointer at source
+    _chatBot = nullptr;
 }
-////
-//// EOF STUDENT CODE
 
 GraphEdge *GraphNode::GetChildEdgeAtIndex(int index)
 {
-    //// STUDENT CODE
-    ////
-
-    return _childEdges[index];
-
-    ////
-    //// EOF STUDENT CODE
+    return _childEdges[index].get();
 }
