@@ -19,11 +19,11 @@ private:
 
     // data handles (not owned)
     std::vector<std::weak_ptr<GraphEdge>> _parentEdges; // edges to preceding nodes 
-    ChatBot *_chatBot;
 
     // proprietary members
     int _id;
     std::vector<std::string> _answers;
+    ChatBot _chatBot;
 
 public:
     // constructor / destructor
@@ -36,20 +36,14 @@ public:
     GraphEdge *GetChildEdgeAtIndex(int index);
     std::vector<std::string> GetAnswers() { return _answers; }
     int GetNumberOfParents() { return _parentEdges.size(); }
+    ChatBot *GetChatBotRef() { return &_chatBot; }
 
     // proprietary functions
     void AddToken(std::string token); // add answers to list
     void AddEdgeToParentNode(std::weak_ptr<GraphEdge> edge);
     void AddEdgeToChildNode(std::shared_ptr<GraphEdge> edge);
 
-    //// STUDENT CODE
-    ////
-
-    void MoveChatbotHere(ChatBot *chatbot);
-
-    ////
-    //// EOF STUDENT CODE
-
+    void MoveChatbotHere(ChatBot &&chatbot);
     void MoveChatbotToNewNode(GraphNode *newNode);
 };
 

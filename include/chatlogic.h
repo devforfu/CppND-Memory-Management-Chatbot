@@ -18,7 +18,6 @@ private:
     std::vector<std::shared_ptr<GraphEdge>> _edges;
 
     // data handles (not owned)
-    GraphNode* _currentNode;
     ChatBot* _chatBot;
     ChatBotPanelDialog *_panelDialog;
 

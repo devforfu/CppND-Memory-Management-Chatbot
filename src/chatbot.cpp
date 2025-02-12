@@ -13,7 +13,7 @@
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
-    LOG("building chat bot empty instance");
+    LOG("ctor: emtpy instance");
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
@@ -22,18 +22,18 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    LOG("building chat bot with image from", filename);
+    LOG("ctor: image from file", filename);
     _chatLogic = nullptr;
     _rootNode = nullptr;
     _image = std::make_unique<wxBitmap>(filename, wxBITMAP_TYPE_PNG);
 }
 
 ChatBot::~ChatBot() {
-    LOG("dropping");
+    LOG("dtor");
 }
 
 ChatBot::ChatBot(ChatBot const &other) {
-    LOG("copying from another object at address", &other);
+    LOG("ctor: copy from", &other);
     
     auto imageRef = other.GetImageHandle();
     _image = std::unique_ptr<wxBitmap>(new wxBitmap(imageRef->GetPixbuf(), imageRef->GetDepth()));
@@ -43,7 +43,7 @@ ChatBot::ChatBot(ChatBot const &other) {
 }
 
 ChatBot::ChatBot(ChatBot &&other) {
-    LOG("moving from another object at address", &other);
+    LOG("ctor: moving from", &other);
     
     _image = other.TakeImage();
 
